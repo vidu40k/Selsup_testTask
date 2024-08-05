@@ -81,14 +81,11 @@ public class CrptApi {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                throw new IOException("Failed to create document: " + response.body());
-            }
-        } catch (IOException | InterruptedException e) {
-            throw e;
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new IOException("Failed to create document: " + response.body());
         }
+
     }
 
 
@@ -125,9 +122,7 @@ public class CrptApi {
         CrptApi crptApi = new CrptApi(TimeUnit.SECONDS, 5);
         try {
             crptApi.createDocument(document, "fdfds");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
